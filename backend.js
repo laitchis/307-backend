@@ -83,15 +83,20 @@ app.get('/users/:id', (req, res) => {
 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
+    userToAdd.id = genId();
     addUser(userToAdd);
     res.status(201).send(findUserById(req.body['id']));
 });
-
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
 function addUser(user){
     users['users_list'].push(user);
 }
 
-
+function genId() {
+    return getRandomInt(1000000);
+}
 
 app.delete('/users/:id', (req, res) => {
     const id = req.params['id'];
