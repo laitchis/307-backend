@@ -1,4 +1,5 @@
 const e = require('express');
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 5001;
@@ -34,6 +35,7 @@ const users = {
     ]
  }
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -82,12 +84,14 @@ app.get('/users/:id', (req, res) => {
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
     addUser(userToAdd);
-    res.status(200).end();
+    res.status(201).send(findUserById(req.body['id']));
 });
 
 function addUser(user){
     users['users_list'].push(user);
 }
+
+
 
 app.delete('/users/:id', (req, res) => {
     const id = req.params['id'];
